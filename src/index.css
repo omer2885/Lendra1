@@ -1,0 +1,64 @@
+@import url("https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300;400;500;600;700;800&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Funnel Display", ui-sans-serif, system-ui, sans-serif;
+
+  --color-brand-midnight: #050505;
+  --color-brand-charcoal: #0d0d0d;
+  --color-brand-gray: #171717;
+  --color-brand-accent: #f5f5f5;
+  --color-brand-muted: #a3a3a3;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-brand-midnight text-white selection:bg-white selection:text-black;
+    font-family: var(--font-sans);
+    font-feature-settings: "liga" 1, "calt" 1, "ss01" 1;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-feature-settings: "liga" 1, "calt" 1;
+    line-height: 1.04;
+  }
+
+  p {
+    line-height: 1.7;
+  }
+
+  button,
+  a {
+    letter-spacing: normal;
+  }
+
+  code,
+  pre {
+    font-family: var(--font-mono);
+  }
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/4 backdrop-blur-xl border border-white/8;
+  }
+  
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .mask-radial {
+    mask-image: radial-gradient(circle at center, black, transparent 80%);
+  }
+}
