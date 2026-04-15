@@ -1,16 +1,46 @@
+import { lazy, Suspense } from "react";
 import { LENDRA_CONTENT } from "../data/content";
-import { Section, FadeIn } from "./Layout";
+import { FadeIn } from "./Layout";
 import { ArrowRight } from "lucide-react";
+
+const MagicRings = lazy(() => import("./MagicRings"));
 
 export const FinalCTA = () => {
   const { finalCTA } = LENDRA_CONTENT;
 
   return (
-    <Section className="py-32 bg-brand-midnight relative overflow-hidden">
-      {/* Background glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-white/5 blur-[120px] rounded-full pointer-events-none" />
+    <section className="relative overflow-hidden bg-brand-midnight">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 opacity-100">
+          <Suspense fallback={null}>
+            <MagicRings
+              color="#80e8e1"
+              colorTwo="#c2904c"
+              ringCount={6}
+              speed={1.7}
+              attenuation={10}
+              lineThickness={2}
+              baseRadius={0.6}
+              radiusStep={0.18}
+              scaleRate={0.18}
+              opacity={1}
+              blur={0}
+              noiseAmount={0.1}
+              rotation={0}
+              ringGap={1.3}
+              fadeIn={0.7}
+              fadeOut={0.5}
+              followMouse={false}
+              mouseInfluence={0.2}
+              hoverScale={1.08}
+              parallax={0.05}
+              clickBurst
+            />
+          </Suspense>
+        </div>
+      </div>
       
-      <div className="max-w-4xl mx-auto text-center relative z-10">
+      <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 text-center md:px-12 lg:px-24">
         <FadeIn>
           <h2 className="font-display text-4xl md:text-6xl font-bold mb-12 leading-tight text-balance">
             {finalCTA.title}
@@ -21,7 +51,7 @@ export const FinalCTA = () => {
           </button>
         </FadeIn>
       </div>
-    </Section>
+    </section>
   );
 };
 

@@ -1,41 +1,36 @@
-import { ArrowRight } from "lucide-react";
 import { LENDRA_CONTENT } from "../data/content";
-import { Section, FadeIn } from "./Layout";
+import { HeroGlassButton } from "./HeroGlassButton";
 
 export const Hero = () => {
   const { hero } = LENDRA_CONTENT;
 
   return (
-    <Section className="min-h-screen flex items-end pt-32 pb-20">
-      <div className="relative z-10 grid w-full grid-cols-1 md:grid-cols-12">
-        <div className="hidden md:block md:col-span-3" />
+    <section className="relative h-[100svh] overflow-hidden px-6 pb-4 pt-32 md:px-12 md:pb-6 lg:px-24">
+      <img
+        className="absolute inset-0 h-full w-full object-cover"
+        src="/Hero_Visual.png"
+        alt=""
+        aria-hidden="true"
+      />
 
-        <div className="md:col-span-9 lg:col-span-8 lg:col-start-5 flex max-w-4xl flex-col items-start justify-end text-left">
-          <FadeIn delay={0.1}>
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.08] mb-8 text-balance max-w-5xl">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] items-end">
+        <div className="grid w-full grid-cols-1 items-end gap-6 md:grid-cols-[1.35fr_0.65fr] md:items-end md:gap-8">
+          <div className="flex w-full max-w-none flex-col items-start justify-end self-end text-left">
+            <h1 className="mb-8 font-display text-4xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-6xl">
               {hero.headline}
             </h1>
-          </FadeIn>
 
-          <FadeIn delay={0.2}>
-            <p className="text-base md:text-lg text-brand-muted max-w-2xl mb-10 leading-relaxed">
+            <p className="max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg">
               {hero.subtext}
             </p>
-          </FadeIn>
 
-          <FadeIn delay={0.3}>
-            <div className="flex flex-col sm:flex-row items-start justify-start gap-4">
-              <button className="w-full sm:w-auto bg-white text-brand-midnight px-8 py-4 rounded-full font-bold hover:bg-brand-accent transition-all duration-300 flex items-center justify-center gap-2 group">
-                {hero.primaryCTA}
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="w-full sm:w-auto border border-white/10 hover:bg-white/5 px-8 py-4 rounded-full font-bold transition-all duration-300">
-                {hero.secondaryCTA}
-              </button>
-            </div>
-          </FadeIn>
+          </div>
+
+          <div className="hidden md:flex self-end justify-end">
+            <HeroGlassButton label={hero.primaryCTA} />
+          </div>
         </div>
       </div>
-    </Section>
+    </section>
   );
 };

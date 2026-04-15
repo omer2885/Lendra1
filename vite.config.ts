@@ -7,6 +7,25 @@ export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
   return {
     plugins: [react(), tailwindcss()],
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/three')) {
+              return 'three-vendor';
+            }
+
+            if (id.includes('node_modules/ogl')) {
+              return 'ogl-vendor';
+            }
+
+            if (id.includes('node_modules/gsap')) {
+              return 'gsap-vendor';
+            }
+          },
+        },
+      },
+    },
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },

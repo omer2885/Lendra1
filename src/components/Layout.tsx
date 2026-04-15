@@ -1,19 +1,21 @@
 import { motion } from "motion/react";
-import { ReactNode } from "react";
+import { CSSProperties, ReactNode } from "react";
 
 interface SectionProps {
   children: ReactNode;
   className?: string;
   id?: string;
+  style?: CSSProperties;
 }
 
-export const Section = ({ children, className = "", id }: SectionProps) => {
+export const Section = ({ children, className = "", id, style }: SectionProps) => {
   return (
     <section
       id={id}
+      style={style}
       className={`relative py-24 px-6 md:px-12 lg:px-24 overflow-hidden ${className}`}
     >
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-[112rem] mx-auto relative z-10">
         {children}
       </div>
     </section>
