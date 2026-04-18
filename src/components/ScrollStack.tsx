@@ -9,7 +9,7 @@ export interface ScrollStackItemProps {
 
 export const ScrollStackItem: React.FC<ScrollStackItemProps> = ({ children, itemClassName = '' }) => (
   <div
-    className={`scroll-stack-card relative w-full h-80 my-8 p-12 shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
+    className={`scroll-stack-card relative w-full h-auto min-h-[22rem] md:min-h-0 md:h-80 my-4 md:my-8 p-6 md:p-12 shadow-[0_0_30px_rgba(0,0,0,0.1)] box-border origin-top will-change-transform ${itemClassName}`.trim()}
     style={{
       backfaceVisibility: 'hidden',
       transformStyle: 'preserve-3d'
@@ -341,12 +341,12 @@ const ScrollStack: React.FC<ScrollStackProps> = ({
 
   return (
     <div
-      className={`relative w-full h-full overflow-y-auto overflow-x-visible ${className}`.trim()}
+      className={`relative w-full h-full ${useWindowScroll ? 'overflow-visible' : 'overflow-y-auto overflow-x-visible'} ${className}`.trim()}
       ref={scrollerRef}
       style={{
-        overscrollBehavior: 'contain',
-        WebkitOverflowScrolling: 'touch',
-        scrollBehavior: 'smooth',
+        overscrollBehavior: useWindowScroll ? 'auto' : 'contain',
+        WebkitOverflowScrolling: useWindowScroll ? 'auto' : 'touch',
+        scrollBehavior: useWindowScroll ? 'auto' : 'smooth',
         WebkitTransform: 'translateZ(0)',
         transform: 'translateZ(0)',
         willChange: 'scroll-position'

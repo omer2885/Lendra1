@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import type { ReactNode } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 export interface StickyScrollItem {
   title: string;
@@ -17,6 +18,8 @@ export function StickyScroll({
   className = "",
 }: StickyScrollProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [previousIndex, setPreviousIndex] = useState<number | null>(null);
+  const [transitionSeed, setTransitionSeed] = useState(0);
   const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
@@ -52,7 +55,42 @@ export function StickyScroll({
     };
   }, [content]);
 
+  useEffect(() => {
+    if (previousIndex === activeIndex) return;
+    if (previousIndex === null) {
+      setPreviousIndex(activeIndex);
+      return;
+    }
+
+    setPreviousIndex((currentPrevious) => {
+      if (currentPrevious === activeIndex) return currentPrevious;
+      return currentPrevious;
+    });
+  }, [activeIndex, previousIndex]);
+
+  useEffect(() => {
+    setTransitionSeed((value) => value + 1);
+
+    const timeout = window.setTimeout(() => {
+      setPreviousIndex(activeIndex);
+    }, 360);
+
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex]);
+
   const activeItem = useMemo(() => content[activeIndex] ?? content[0], [activeIndex, content]);
+  const previousItem = useMemo(
+    () => (previousIndex === null ? null : content[previousIndex] ?? null),
+    [content, previousIndex],
+  );
+  const pixelBlocks = useMemo(
+    () =>
+      Array.from({ length: 30 }, (_, index) => ({
+        id: `${transitionSeed}-${index}`,
+        delay: (index % 6) * 0.025 + Math.floor(index / 6) * 0.035,
+      })),
+    [transitionSeed],
+  );
 
   return (
     <div className={`grid gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(360px,1.1fr)] lg:gap-16 ${className}`.trim()}>
@@ -102,9 +140,47 @@ export function StickyScroll({
 
       <div className="relative hidden lg:block">
         <div className="sticky top-24">
-          <div className="relative h-[78vh] overflow-hidden border border-white/10 bg-[#141414] shadow-[0_0_0_1px_rgba(255,255,255,0.03)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.06),transparent_34%),linear-gradient(140deg,rgba(255,255,255,0.04),rgba(255,255,255,0.01))]" />
-            <div className="relative h-full p-6">{activeItem?.content}</div>
+          <div className="relative h-[82vh] overflow-hidden">
+            {previousItem && previousIndex !== activeIndex ? (
+              <motion.div
+                key={`previous-${previousIndex}`}
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 0 }}
+                transition={{ delay: 0.12, duration: 0.28, ease: "easeOut" }}
+                className="absolute inset-0"
+              >
+                {previousItem.content}
+              </motion.div>
+            ) : null}
+
+            <motion.div
+              key={`active-${activeItem?.title ?? activeIndex}`}
+              initial={{ opacity: 0.92, scale: 1.015 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+              className="relative h-full"
+            >
+              {activeItem?.content}
+
+              <div className="pointer-events-none absolute inset-0 grid grid-cols-6 grid-rows-5">
+                <AnimatePresence>
+                  {pixelBlocks.map((block) => (
+                    <motion.div
+                      key={block.id}
+                      initial={{ opacity: 1, scale: 1 }}
+                      animate={{ opacity: 0, scale: 0.86 }}
+                      exit={{ opacity: 0 }}
+                      transition={{
+                        delay: 0.08 + block.delay,
+                        duration: 0.24,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                      className="bg-[#050505]"
+                    />
+                  ))}
+                </AnimatePresence>
+              </div>
+            </motion.div>
           </div>
         </div>
       </div>

@@ -1,29 +1,41 @@
+import { Routes, Route, useNavigate } from "react-router-dom";
+
+import { Preloader } from "./components/Preloader";
 import { Navbar } from "./components/Navbar";
-import { Hero } from "./components/Hero";
-import { Positioning } from "./components/Positioning";
-import { WhatLendraDoes } from "./components/WhatLendraDoes";
-import { HowItWorks } from "./components/HowItWorks";
-import { SingleTransfer } from "./components/SingleTransfer";
-import { YieldSource } from "./components/YieldSource";
-import { VaultParticipation } from "./components/VaultParticipation";
-import { FinalCTA } from "./components/Footer";
-import { Footer } from "./components/Footer";
+import { usePreloader } from "./components/PreloaderContext";
+import { VaultPage } from "./components/VaultPage";
+import { VaultVideoPreloader } from "./components/VaultVideoPreloader";
+import { Home } from "./components/Home";
 
 export default function App() {
+  const { status, setStatus, setView } = usePreloader();
+  const navigate = useNavigate();
+
+  const handleNavigateToHome = () => {
+    setStatus("loading");
+    setView("home");
+    navigate("/");
+    window.scrollTo(0, 0);
+  };
+
   return (
     <div className="min-h-screen bg-brand-midnight text-white selection:bg-white selection:text-black">
-      <Navbar />
+      {/* Global preloader overlay */}
+      {(status === "loading" || status === "video" || status === "revealing") && <Preloader key="native-preloader" />}
+
+      <VaultVideoPreloader />
+      <Navbar onLogoClick={handleNavigateToHome} />
+
       <main>
-        <Hero />
-        <Positioning />
-        <WhatLendraDoes />
-        <HowItWorks />
-        <SingleTransfer />
-        <YieldSource />
-        <VaultParticipation />
-        <FinalCTA />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/vault" element={
+            <>
+              <VaultPage />
+            </>
+          } />
+        </Routes>
       </main>
-      <Footer />
     </div>
   );
 }
