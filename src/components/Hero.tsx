@@ -27,7 +27,7 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
               initial={{ y: 40, opacity: 0 }}
               animate={isRevealed ? { y: 0, opacity: 1 } : { y: 40, opacity: 0 }}
               transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-5 max-w-5xl font-display text-3xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-6xl"
+              className="mb-5 max-w-5xl font-display text-3xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-5xl"
             >
               {hero.headline}
             </motion.h1>

@@ -70,29 +70,35 @@ export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void 
     <section
       ref={sectionRef}
       id="vault"
-      className="relative overflow-hidden bg-brand-charcoal px-6 py-24 md:px-12 lg:min-h-[44rem] lg:px-24"
+      className="relative flex flex-col overflow-hidden bg-brand-charcoal pb-10 pt-0 lg:block lg:min-h-[44rem] lg:py-24"
     >
-      <video
-        ref={videoRef}
-        className="pointer-events-none absolute inset-0 h-full w-full object-contain object-left"
-        muted
-        playsInline
-        preload="auto"
-        poster="/Capital%20participation.png"
-        aria-hidden="true"
-      >
-        <source src="/Capital%20participation.scrub.mp4" type="video/mp4" />
-      </video>
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          background:
-            "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
-        }}
-        aria-hidden="true"
-      />
-      <div className="mx-auto max-w-[112rem]">
-        <div className="relative z-10 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
+      <div className="relative h-[40vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-0 lg:h-full lg:overflow-visible">
+        <video
+          ref={videoRef}
+          className="pointer-events-none absolute inset-0 h-full w-full object-contain object-center scale-[1.8] translate-x-[40%] translate-y-[0%] lg:object-left lg:scale-100 lg:translate-x-0 lg:translate-y-0"
+          muted
+          playsInline
+          preload="auto"
+          poster="/Capital%20participation.png"
+          aria-hidden="true"
+        >
+          <source src="/Capital%20participation.scrub.mp4" type="video/mp4" />
+        </video>
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-charcoal via-transparent to-transparent lg:hidden"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute inset-0 hidden lg:block"
+          style={{
+            background:
+              "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
+          }}
+          aria-hidden="true"
+        />
+      </div>
+      <div className="relative z-10 mx-auto mt-8 w-full max-w-[112rem] px-6 md:px-12 lg:mt-0 lg:px-24">
+        <div className="mb-16 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
           <FadeIn direction="left">
             <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
               Participation

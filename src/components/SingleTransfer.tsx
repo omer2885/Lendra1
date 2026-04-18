@@ -65,7 +65,34 @@ export const SingleTransfer = () => {
 
       <FadeIn delay={0.15}>
         <div>
-          <StickyScroll content={transferSteps} />
+          <div className="hidden lg:block">
+            <StickyScroll content={transferSteps} />
+          </div>
+
+          {/* Mobile-only Card Layout */}
+          <div className="flex flex-col gap-12 lg:hidden mt-12">
+            {transferSteps.map((step, index) => (
+              <div key={index} className="flex flex-col">
+                <div className="mb-6 aspect-[4/3] w-full overflow-hidden rounded-[1.5rem]">
+                  {step.content}
+                </div>
+                <div>
+                  <div className="mb-4 flex items-center gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center border border-brand-accent bg-brand-accent text-sm font-semibold text-brand-midnight">
+                      {String(index + 1).padStart(2, "0")}
+                    </div>
+                    <div className="h-px flex-1 bg-white/10" />
+                  </div>
+                  <h3 className="mb-3 font-display text-2xl font-bold tracking-tight text-white">
+                    {step.title}
+                  </h3>
+                  <p className="text-base leading-relaxed text-brand-muted">
+                    {step.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </FadeIn>
     </Section>
