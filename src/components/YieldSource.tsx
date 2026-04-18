@@ -101,7 +101,7 @@ export const YieldSource = () => {
           aria-hidden="true"
         />
       </div>
-      <div className="relative z-10 mx-auto w-full max-w-[112rem] pt-6 md:px-12 lg:mt-0 lg:px-24">
+      <div className="relative z-10 mx-auto w-full max-w-[112rem] px-5 pt-6 md:px-12 lg:mt-0 lg:px-24">
         <div className="mb-16 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
           <FadeIn>
             <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
