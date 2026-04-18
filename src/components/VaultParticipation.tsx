@@ -87,12 +87,12 @@ export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void 
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(8,8,8,0.04) 0%, rgba(8,8,8,0.1) 34%, rgba(8,8,8,0.44) 62%, rgba(8,8,8,0.76) 100%)",
+            "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
         }}
         aria-hidden="true"
       />
       <div className="mx-auto max-w-[112rem]">
-        <div className="relative z-10 ml-auto max-w-[44rem] text-left">
+        <div className="relative z-10 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
           <FadeIn direction="left">
             <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
               Participation

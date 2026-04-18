@@ -91,12 +91,12 @@ export const YieldSource = () => {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(90deg, rgba(8,8,8,0.02) 0%, rgba(8,8,8,0.06) 42%, rgba(8,8,8,0.34) 68%, rgba(8,8,8,0.56) 100%)",
+            "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
         }}
         aria-hidden="true"
       />
       <div className="mx-auto max-w-[112rem]">
-        <div className="relative z-10 mb-16 ml-auto max-w-[44rem] text-left">
+        <div className="relative z-10 mb-16 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
           <FadeIn>
             <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
               Thesis
@@ -104,7 +104,7 @@ export const YieldSource = () => {
             <h2 className="mb-8 max-w-[32rem] font-display text-4xl font-bold md:text-5xl">
               {singleTransfer.title}
             </h2>
-            <div className="max-w-[34rem] space-y-6 text-lg leading-relaxed text-brand-muted">
+            <div className="max-w-[34rem] space-y-6 text-lg leading-relaxed">
               {transferIntroParagraphs.map((paragraph) => (
                 <p key={paragraph}>{paragraph}</p>
               ))}

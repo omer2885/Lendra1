@@ -12,9 +12,9 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
     <section className="relative h-[100svh] overflow-hidden px-6 pb-4 pt-32 md:px-12 md:pb-6 lg:px-24">
       <motion.img
         initial={{ scale: 1.1, opacity: 0 }}
-        animate={isRevealed ? { scale: 1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
+        animate={isRevealed ? { scale: 1.1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
         transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 h-full w-full object-cover"
+        className="absolute inset-0 h-full w-full object-cover object-[85%_50%] md:object-right -mt-20"
         src="/Hero_Visual.png"
         alt=""
         aria-hidden="true"
@@ -27,7 +27,7 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
               initial={{ y: 40, opacity: 0 }}
               animate={isRevealed ? { y: 0, opacity: 1 } : { y: 40, opacity: 0 }}
               transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-5 max-w-5xl font-display text-4xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-6xl"
+              className="mb-5 max-w-5xl font-display text-3xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-6xl"
             >
               {hero.headline}
             </motion.h1>
@@ -47,7 +47,7 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
               transition={{ duration: 1.2, delay: 1.2, ease: [0.22, 1, 0.36, 1] }}
               className="mt-6 md:mt-8"
             >
-              <VaultButton label={hero.primaryCTA} onClick={onEnterVault} />
+              {/* <VaultButton label={hero.primaryCTA} onClick={onEnterVault} /> */}
             </motion.div>
           </div>
         </div>
