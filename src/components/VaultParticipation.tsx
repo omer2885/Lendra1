@@ -78,7 +78,7 @@ export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void 
           className="pointer-events-none absolute inset-0 h-full w-full object-contain object-center scale-[1.8] translate-x-[40%] translate-y-[0%] lg:object-left lg:scale-100 lg:translate-x-0 lg:translate-y-0"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/Capital%20participation.png"
           aria-hidden="true"
         >

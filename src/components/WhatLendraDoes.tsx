@@ -11,7 +11,7 @@ const CapitalTimingVideo = () => {
         muted
         loop
         playsInline
-        preload="auto"
+        preload="metadata"
       >
         <source src="/Capital%20for%20timing%20gaps.mp4" type="video/mp4" />
       </video>

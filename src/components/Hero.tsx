@@ -17,6 +17,7 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
         className="absolute inset-0 h-full w-full object-cover object-[85%_50%] md:object-right -mt-20"
         src="/Hero_Visual.png"
         alt=""
+        fetchPriority="high"
         aria-hidden="true"
       />
 

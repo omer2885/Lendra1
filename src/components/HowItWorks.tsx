@@ -94,7 +94,7 @@ const DesktopStepCard = ({
           muted
           loop
           playsInline
-          preload="auto"
+          preload="metadata"
         >
           <source
             src={`/Simple%20Structure%20Animations/${encodeURIComponent(step.mediaLabel)}.mp4`}
@@ -190,20 +190,20 @@ export const HowItWorks = () => {
                 <div className="relative flex min-h-[15rem] items-center justify-center overflow-hidden bg-black/60">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_52%)]" />
                   <div className="relative flex aspect-square h-full max-h-full max-w-full items-center justify-center overflow-hidden">
-                  <video
-                    key={`${step.mediaLabel}-mobile`}
-                    className="relative z-10 h-full w-full object-contain object-center mix-blend-screen"
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="auto"
-                  >
-                    <source
-                      src={`/Simple%20Structure%20Animations/${encodeURIComponent(step.mediaLabel)}.mp4`}
-                      type="video/mp4"
-                    />
-                  </video>
+                    <video
+                      key={`${step.mediaLabel}-mobile`}
+                      className="relative z-10 h-full w-full object-contain object-center mix-blend-screen"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      preload="metadata"
+                    >
+                      <source
+                        src={`/Simple%20Structure%20Animations/${encodeURIComponent(step.mediaLabel)}.mp4`}
+                        type="video/mp4"
+                      />
+                    </video>
                   </div>
                 </div>
               </div>

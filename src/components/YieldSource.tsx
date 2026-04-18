@@ -82,7 +82,7 @@ export const YieldSource = () => {
           className="pointer-events-none absolute inset-0 h-full w-full object-contain object-right scale-[1.5] translate-x-[20%] translate-y-[0%] lg:object-left lg:scale-100 lg:translate-x-0 lg:translate-y-0"
           muted
           playsInline
-          preload="auto"
+          preload="metadata"
           poster="/A%20single%20transfer.png"
           aria-hidden="true"
         >

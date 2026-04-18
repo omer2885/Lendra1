@@ -24,6 +24,8 @@ export const Positioning = () => {
             src="/Section%202.png"
             alt=""
             aria-hidden="true"
+            loading="lazy"
+            decoding="async"
             className="h-full w-full object-contain scale-[1.9] translate-x-[-27%] translate-y-[15%] lg:translate-x-0 lg:translate-y-0 lg:scale-100 lg:object-right sm:w-[120%] opacity-100"
           />
         </FadeIn>
