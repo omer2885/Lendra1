@@ -9,26 +9,27 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
   const isRevealed = status !== "loading";
 
   return (
-    <section className="relative h-[100svh] overflow-hidden px-6 pb-4 pt-32 md:-mt-20 md:px-12 md:pb-6 lg:px-24">
+    <section className="hero-section relative h-[100svh] overflow-hidden px-6 pb-4 pt-32 md:-mt-20 md:px-12 md:pb-6 lg:px-24">
       <motion.img
         initial={{ scale: 1.1, opacity: 0 }}
         animate={isRevealed ? { scale: 1.1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
         transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-        className="absolute inset-0 -mt-20 h-full w-full object-cover object-[85%_50%] md:mt-0 md:h-screen md:w-screen md:object-right"
+        className="hero-visual absolute inset-0 -mt-20 h-full w-full object-cover object-[85%_50%] md:mt-0 md:h-screen md:w-screen md:object-right"
         src="/Hero_Visual.png"
         alt=""
         fetchPriority="high"
         aria-hidden="true"
       />
+      <div className="hero-readable-overlay pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
       <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] items-end">
         <div className="flex w-full items-end">
-          <div className="flex w-full max-w-none -translate-y-8 flex-col items-start justify-end self-end text-left md:-translate-y-12">
+          <div className="hero-copy flex w-full max-w-none -translate-y-8 flex-col items-start justify-end self-end text-left md:-translate-y-12">
             <motion.h1
               initial={{ y: 40, opacity: 0 }}
               animate={isRevealed ? { y: 0, opacity: 1 } : { y: 40, opacity: 0 }}
               transition={{ duration: 1.2, delay: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="mb-5 max-w-[46rem] font-display text-3xl font-normal leading-[1.08] text-balance md:text-5xl lg:text-5xl"
+              className="hero-heading site-hero-heading mb-5 max-w-[46rem]"
             >
               {hero.headline}
             </motion.h1>
@@ -37,7 +38,7 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
               initial={{ y: 20, opacity: 0 }}
               animate={isRevealed ? { y: 0, opacity: 1 } : { y: 20, opacity: 0 }}
               transition={{ duration: 1.2, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-              className="max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg mb-4"
+              className="hero-body site-body mb-4 max-w-2xl text-brand-muted"
             >
               {hero.subtext}
             </motion.p>

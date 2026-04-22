@@ -44,12 +44,12 @@ export const VaultPage = () => {
                     <div>
                         <div className="flex items-center gap-2 mb-1.5">
                             <div className="h-1.5 w-1.5 rounded-full bg-brand-accent animate-pulse" />
-                            <span className="text-[10px] font-mono text-brand-accent uppercase tracking-widest">Protocol Live</span>
+                            <span className="site-ui-label text-brand-accent">Protocol Live</span>
                         </div>
-                        <h1 className="text-4xl lg:text-5xl font-display font-medium tracking-tight mb-2">
+                        <h1 className="site-section-heading mb-2">
                             The Vault
                         </h1>
-                        <p className="text-sm text-white/50 font-light max-w-xl">
+                        <p className="site-card-body max-w-xl text-white/50">
                             Institutional-grade liquidity pools with multi-signature security.
                         </p>
                     </div>
@@ -72,22 +72,22 @@ export const VaultPage = () => {
                             <div className="absolute top-0 right-0 w-48 h-48 bg-green-400/[0.03] rounded-full blur-[60px] -translate-y-1/2 translate-x-1/2" />
 
                             <div className="flex justify-between items-center mb-6 relative z-10">
-                                <h2 className="text-sm font-medium text-white/50 uppercase tracking-wider">Vault Overview</h2>
+                                <h2 className="site-ui-label text-white/50">Vault Overview</h2>
                                 <div className="flex items-center gap-1.5 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
                                     <div className="h-1.5 w-1.5 rounded-full bg-green-400 animate-pulse" />
-                                    <span className="text-[9px] font-bold text-green-400 uppercase tracking-widest">Live</span>
+                                    <span className="site-ui-label text-green-400">Live</span>
                                 </div>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 relative z-10">
                                 <div>
-                                    <p className="text-3xl lg:text-4xl font-display font-medium mb-1 tracking-tight">$42.8M</p>
+                                    <p className="site-metric-value mb-1">$42.8M</p>
                                     <p className="text-xs text-white/40 flex items-center gap-1.5 font-medium">
                                         <TrendingUp size={12} className="text-green-400" /> TVL
                                     </p>
                                 </div>
                                 <div>
-                                    <p className="text-3xl lg:text-4xl font-display font-medium mb-1 text-brand-accent tracking-tight">12.42<span className="text-xl text-brand-accent/50">%</span></p>
+                                    <p className="site-metric-value mb-1 text-brand-accent">12.42<span className="text-xl text-brand-accent/50">%</span></p>
                                     <p className="text-xs text-white/40 flex items-center gap-1.5 font-medium">
                                         <Zap size={12} className="text-yellow-400" /> Base APY
                                     </p>
@@ -99,13 +99,13 @@ export const VaultPage = () => {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                             <motion.div variants={itemVariants} className="bg-white/[0.02] border border-white/[0.05] p-5 rounded-3xl">
                                 <ShieldCheck className="text-white/60 mb-3" size={18} />
-                                <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-2">Institutional Guard</h3>
-                                <p className="text-[11px] text-white/40 leading-relaxed font-light">Multi-sig custody with automated risk circuit breakers.</p>
+                                <h3 className="site-ui-label mb-2 text-white/50">Institutional Guard</h3>
+                                <p className="site-card-body text-white/40">Multi-sig custody with automated risk circuit breakers.</p>
                             </motion.div>
                             <motion.div variants={itemVariants} className="bg-white/[0.02] border border-white/[0.05] p-5 rounded-3xl">
                                 <ArrowLeftRight className="text-white/60 mb-3" size={18} />
-                                <h3 className="text-sm font-medium text-white/50 uppercase tracking-wider mb-2">Liquid Exits</h3>
-                                <p className="text-[11px] text-white/40 leading-relaxed font-light">Secondary market liquidity integration for zero-slippage.</p>
+                                <h3 className="site-ui-label mb-2 text-white/50">Liquid Exits</h3>
+                                <p className="site-card-body text-white/40">Secondary market liquidity integration for zero-slippage.</p>
                             </motion.div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ export const VaultPage = () => {
 
                             <div className="p-5 flex-1 flex flex-col relative z-10 justify-between">
                                 <div className="flex justify-between items-center mb-5">
-                                    <h2 className="text-sm font-medium text-white/50 uppercase tracking-wider">Swap to Vault</h2>
+                                    <h2 className="site-ui-label text-white/50">Swap to Vault</h2>
                                     <div className="flex gap-3 text-white/40">
                                         <History size={14} className="cursor-pointer hover:text-white" />
                                         <Settings size={14} className="cursor-pointer hover:text-white" />
@@ -128,8 +128,8 @@ export const VaultPage = () => {
                                     {/* Input Field UX */}
                                     <div className="bg-white/[0.03] border border-white/5 p-4 rounded-2xl">
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">You Pay</span>
-                                            <span className="text-[10px] font-mono text-white/40 cursor-pointer hover:text-white">Bal: 2,500.0</span>
+                                            <span className="site-ui-label text-white/40">You Pay</span>
+                                            <span className="site-ui-label cursor-pointer text-white/40 hover:text-white">Bal: 2,500.0</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <input
@@ -156,7 +156,7 @@ export const VaultPage = () => {
                                     {/* Output Field UX */}
                                     <div className="bg-white/[0.03] border border-white/5 p-4 rounded-2xl">
                                         <div className="flex justify-between items-center mb-2">
-                                            <span className="text-[10px] font-mono text-white/40 uppercase tracking-widest">You Receive</span>
+                                            <span className="site-ui-label text-white/40">You Receive</span>
                                         </div>
                                         <div className="flex justify-between items-center">
                                             <p className={`text-2xl font-medium ${fromAmount ? 'text-white' : 'text-white/10'}`}>

@@ -6,6 +6,7 @@ import { usePreloader } from "./components/PreloaderContext";
 import { VaultPage } from "./components/VaultPage";
 import { VaultVideoPreloader } from "./components/VaultVideoPreloader";
 import { Home } from "./components/Home";
+import { SmoothScroll } from "./components/SmoothScroll";
 
 export default function App() {
   const { status, setStatus, setView } = usePreloader();
@@ -20,6 +21,8 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-brand-midnight text-white selection:bg-white selection:text-black">
+      <SmoothScroll />
+
       {/* Global preloader overlay */}
       {(status === "loading" || status === "video" || status === "revealing") && <Preloader key="native-preloader" />}
 

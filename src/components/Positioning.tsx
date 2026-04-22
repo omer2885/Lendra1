@@ -8,10 +8,10 @@ export const Positioning = () => {
     <section className="positioning-gradient-section relative overflow-hidden border-y border-white/5 bg-brand-midnight px-6 h-[670px] md:px-12 lg:px-24 lg:h-auto">
       <div className="mx-auto flex min-h-[36rem] max-w-[112rem] flex-col gap-8 lg:grid lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:gap-0">
         <FadeIn direction="right" className="relative z-10 max-w-2xl pt-16 md:pt-20 lg:py-16">
-          <h2 className="mb-4 text-brand-accent font-mono text-xs uppercase tracking-widest">
+          <h2 className="site-kicker mb-4 text-brand-accent">
             Positioning
           </h2>
-          <p className="max-w-2xl font-display text-3xl leading-[1.08] text-white text-balance md:text-4xl lg:text-5xl">
+          <p className="site-hero-heading max-w-2xl text-white">
             {positioning}
           </p>
         </FadeIn>

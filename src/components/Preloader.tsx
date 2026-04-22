@@ -1,22 +1,104 @@
-import { useEffect, useRef, useState } from "react";
-import Lottie from "lottie-react";
+import { useEffect, useRef, useState, type ComponentType } from "react";
 import { usePreloader } from "./PreloaderContext";
+
+const HOME_CRITICAL_ASSETS = [
+    "/Hero_Visual.png",
+    "/Lendra1%20Logo.svg",
+];
+
+const loadImageAsset = (src: string) =>
+    new Promise<void>((resolve) => {
+        const image = new Image();
+
+        const finish = () => resolve();
+        image.onload = async () => {
+            try {
+                await image.decode?.();
+            } catch {
+                // Decode can reject for SVG/cached images; onload is enough.
+            }
+            finish();
+        };
+        image.onerror = finish;
+        image.src = src;
+    });
+
+const waitForHomepageReady = () => {
+    const fontReady =
+        "fonts" in document
+            ? document.fonts.ready.then(() => undefined).catch(() => undefined)
+            : Promise.resolve();
+
+    const assetReady = Promise.allSettled(HOME_CRITICAL_ASSETS.map(loadImageAsset)).then(
+        () => undefined,
+    );
+
+    return Promise.all([fontReady, assetReady]).then(() => undefined);
+};
 
 export function Preloader() {
     const { setStatus, view, videoReady } = usePreloader();
     const [progress, setProgress] = useState(0);
-    const [animData, setAnimData] = useState<any>(null);
+    const [animData, setAnimData] = useState<unknown>(null);
+    const [LottieComponent, setLottieComponent] = useState<ComponentType<any> | null>(null);
+    const [homeReady, setHomeReady] = useState(false);
     const [isRevealing, setIsRevealing] = useState(false);
     const [isDone, setIsDone] = useState(false);
 
     const hasRevealed = useRef(false);
+    const homeReadyRef = useRef(homeReady);
+    const viewRef = useRef(view);
 
     useEffect(() => {
-        fetch("/Lendra preloader.json")
-            .then((r) => r.json())
-            .then(setAnimData)
+        homeReadyRef.current = homeReady;
+    }, [homeReady]);
+
+    useEffect(() => {
+        viewRef.current = view;
+    }, [view]);
+
+    useEffect(() => {
+        let isMounted = true;
+
+        Promise.all([
+            import("lottie-react"),
+            fetch("/Lendra preloader.json").then((r) => r.json()),
+        ])
+            .then(([lottieModule, animationData]) => {
+                if (!isMounted) return;
+                setLottieComponent(() => lottieModule.default);
+                setAnimData(animationData);
+            })
             .catch(console.error);
+
+        return () => {
+            isMounted = false;
+        };
     }, []);
+
+    useEffect(() => {
+        if (view !== "home") {
+            setHomeReady(true);
+            return;
+        }
+
+        let isMounted = true;
+
+        const timeout = window.setTimeout(() => {
+            if (isMounted) setHomeReady(true);
+        }, 6000);
+
+        waitForHomepageReady().then(() => {
+            if (!isMounted) return;
+            window.clearTimeout(timeout);
+            setHomeReady(true);
+        });
+
+        return () => {
+            isMounted = false;
+            window.clearTimeout(timeout);
+        };
+    }, [view]);
 
     useEffect(() => {
         // Scroll lock
@@ -34,11 +116,14 @@ export function Preloader() {
             const elapsed = now - start;
             const pct = Math.min(elapsed / duration, 1);
 
-            // Easing out sine for smooth finish
+            // Hold near complete until the real loading guard is satisfied.
             const eased = Math.sin((pct * Math.PI) / 2);
-            setProgress(Math.round(eased * 100));
+            const isWaitingForHome = viewRef.current === "home" && !homeReadyRef.current;
+            const cap = isWaitingForHome ? 92 : 100;
+            const nextProgress = Math.round(eased * cap);
+            setProgress((currentProgress) => Math.max(currentProgress, nextProgress));
 
-            if (pct < 1) {
+            if (pct < 1 || isWaitingForHome) {
                 rafId = requestAnimationFrame(animateProgress);
             }
         };
@@ -54,6 +139,9 @@ export function Preloader() {
 
         // Gate 2: If we are heading to the Vault, wait for the cinematic video
         if (view === "vault" && !videoReady) return;
+
+        // Gate 3: If we are heading home, wait for critical homepage assets
+        if (view === "home" && !homeReady) return;
 
         // Prevent double triggers
         if (hasRevealed.current) return;
@@ -79,7 +167,7 @@ export function Preloader() {
             document.body.style.overflow = "";
         }, 2000); // 2 seconds (matches the 1.8s CSS transition width padding)
 
-    }, [progress, view, videoReady, setStatus]);
+    }, [progress, view, videoReady, homeReady, setStatus]);
 
     if (isDone) return null;
 
@@ -106,14 +194,14 @@ export function Preloader() {
                 className="preloader-content"
                 style={{
                     opacity: isRevealing ? 0 : 1,
-                    transition: "opacity 0.6s ease",
+                    transition: "opacity 0.18s ease",
                 }}
             >
                 <div className="preloader-lottie">
-                    {animData && (
-                        <Lottie
+                    {LottieComponent && animData && (
+                        <LottieComponent
                             animationData={animData}
-                            loop={true}
+                            loop
                             style={{ width: "100%", height: "100%" }}
                         />
                     )}

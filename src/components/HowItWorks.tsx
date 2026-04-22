@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { LENDRA_CONTENT } from "../data/content";
 import { FadeIn } from "./Layout";
 import ScrollStack, { ScrollStackItem } from "./ScrollStack";
@@ -43,6 +44,91 @@ const simpleStructureCards = [
   },
 ] as const;
 
+const SimpleStructureVideo = ({
+  mediaLabel,
+  className,
+}: {
+  mediaLabel: string;
+  className: string;
+}) => {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const isVisibleRef = useRef(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const play = () => {
+      if (!isVisibleRef.current) return;
+      if (document.hidden) return;
+      video.play().catch(() => {
+        // Autoplay can briefly reject while cards are moving in the stack.
+      });
+    };
+
+    const restart = () => {
+      video.currentTime = 0;
+      play();
+    };
+
+    const skipBlackTail = () => {
+      if (!Number.isFinite(video.duration) || video.duration <= 0) return;
+      if (video.currentTime >= video.duration - 0.12) {
+        restart();
+      }
+    };
+
+    video.muted = true;
+    video.loop = true;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          play();
+        } else {
+          video.pause();
+        }
+      },
+      { rootMargin: "180px 0px", threshold: 0.05 }
+    );
+
+    observer.observe(video);
+    video.addEventListener("loadeddata", play);
+    video.addEventListener("canplay", play);
+    video.addEventListener("ended", restart);
+    video.addEventListener("timeupdate", skipBlackTail);
+    document.addEventListener("visibilitychange", play);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener("loadeddata", play);
+      video.removeEventListener("canplay", play);
+      video.removeEventListener("ended", restart);
+      video.removeEventListener("timeupdate", skipBlackTail);
+      document.removeEventListener("visibilitychange", play);
+    };
+  }, []);
+
+  return (
+    <video
+      ref={videoRef}
+      key={mediaLabel}
+      className={className}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+    >
+      <source
+        src={`/Simple%20Structure%20Animations/${encodeURIComponent(mediaLabel)}.mp4`}
+        type="video/mp4"
+      />
+    </video>
+  );
+};
+
 const DesktopStepCard = ({
   step,
   index,
@@ -61,22 +147,22 @@ const DesktopStepCard = ({
         style={{ paddingRight: "calc(29rem + 4rem)" }}
       >
         <div>
-          <span className="block font-mono text-xs uppercase tracking-[0.18em] text-white/90">
+          <span className="site-kicker block text-white/90">
             STEP {index + 1}:
           </span>
         </div>
 
         <div className="flex flex-1 flex-col justify-center">
-          <h3 className="max-w-xl font-display text-[2rem] font-medium leading-[1] tracking-tight text-white 2xl:text-[2.35rem]">
+          <h3 className="site-card-heading max-w-xl text-white">
             {step.label}
           </h3>
-          <p className="mt-3 max-w-xl text-base leading-relaxed text-brand-muted xl:text-[1.05rem]">
+          <p className="site-card-body mt-3 max-w-xl text-brand-muted">
             {step.description}
           </p>
         </div>
 
         <div className="flex items-center gap-4 pr-6">
-          <span className="font-mono text-xs uppercase tracking-[0.14em] text-white/90">
+          <span className="site-kicker text-white/90">
             {stepNumber}/{String(simpleStructureCards.length).padStart(2, "0")}
           </span>
           <div className="h-px flex-1 bg-white/12" />
@@ -87,20 +173,10 @@ const DesktopStepCard = ({
         className="absolute inset-y-0 right-0 z-10 overflow-hidden border-l border-white/8 bg-black"
         style={{ width: DESKTOP_MEDIA_WIDTH }}
       >
-        <video
-          key={step.mediaLabel}
+        <SimpleStructureVideo
+          mediaLabel={step.mediaLabel}
           className="block h-full w-full object-cover object-center"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="metadata"
-        >
-          <source
-            src={`/Simple%20Structure%20Animations/${encodeURIComponent(step.mediaLabel)}.mp4`}
-            type="video/mp4"
-          />
-        </video>
+        />
       </div>
     </>
   );
@@ -120,10 +196,10 @@ export const HowItWorks = () => {
           <FadeIn>
             <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(320px,40rem)] lg:items-start lg:gap-16">
               <div>
-                <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
+                <span className="site-kicker mb-4 block text-brand-accent">
                   Process
                 </span>
-                <h2 className="font-display text-4xl font-bold md:text-5xl">
+                <h2 className="site-section-heading">
                   Simple
                   <br />
                   structure
@@ -131,7 +207,7 @@ export const HowItWorks = () => {
               </div>
 
               <div className="lg:pt-5">
-                <p className="max-w-2xl text-lg text-brand-muted">
+                <p className="site-body max-w-2xl text-brand-muted">
                   {howItWorks.content}
                 </p>
               </div>
@@ -168,7 +244,7 @@ export const HowItWorks = () => {
               <div className="relative z-10 space-y-6 p-6 md:p-8">
                 <div className="flex items-center gap-4">
                   <div className="flex h-12 w-12 items-center justify-center border border-white/10 bg-brand-midnight">
-                    <span className="font-mono text-base font-semibold text-brand-accent">
+                    <span className="font-semibold text-brand-accent">
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </div>
@@ -176,13 +252,13 @@ export const HowItWorks = () => {
                 </div>
 
                 <div>
-                  <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.32em] text-brand-accent/80">
+                  <p className="site-kicker mb-3 text-brand-accent/80">
                     STEP {i + 1}:
                   </p>
-                  <h3 className="mb-3 font-display text-2xl font-medium tracking-tight text-white md:text-3xl">
+                  <h3 className="site-card-heading mb-3 text-white">
                     {step.label}
                   </h3>
-                  <p className="max-w-2xl text-base leading-relaxed text-brand-muted md:text-lg">
+                  <p className="site-card-body max-w-2xl text-brand-muted">
                     {step.description}
                   </p>
                 </div>
@@ -190,20 +266,10 @@ export const HowItWorks = () => {
                 <div className="relative flex min-h-[15rem] items-center justify-center overflow-hidden bg-black/60">
                   <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.08),transparent_52%)]" />
                   <div className="relative flex aspect-square h-full max-h-full max-w-full items-center justify-center overflow-hidden">
-                    <video
-                      key={`${step.mediaLabel}-mobile`}
+                    <SimpleStructureVideo
+                      mediaLabel={step.mediaLabel}
                       className="relative z-10 h-full w-full object-contain object-center mix-blend-screen"
-                      autoPlay
-                      muted
-                      loop
-                      playsInline
-                      preload="metadata"
-                    >
-                      <source
-                        src={`/Simple%20Structure%20Animations/${encodeURIComponent(step.mediaLabel)}.mp4`}
-                        type="video/mp4"
-                      />
-                    </video>
+                    />
                   </div>
                 </div>
               </div>

@@ -6,13 +6,19 @@ import { usePreloader } from "./PreloaderContext";
  * This component is only mounted on the /vault route.
  */
 export const VaultVideoPreloader = () => {
-    const { status, setStatus, setVideoReady } = usePreloader();
+    const { status, setStatus, setVideoReady, view } = usePreloader();
     const videoRef = useRef<HTMLVideoElement>(null);
     const [isVisible, setIsVisible] = useState(false);
     const [isEnding, setIsEnding] = useState(false);
+    const shouldPrepareVideo = view === "vault";
 
     // 1. Initial Preloading: Check readiness
     useEffect(() => {
+        if (!shouldPrepareVideo) {
+            setVideoReady(false);
+            return;
+        }
+
         const video = videoRef.current;
         if (!video) return;
 
@@ -31,14 +37,14 @@ export const VaultVideoPreloader = () => {
         const safety = setTimeout(() => {
             console.warn("Vault video transition safety timeout.");
             setVideoReady(true);
-        }, 8000);
+        }, 3000);
 
         return () => {
             clearInterval(interval);
             video.removeEventListener('canplaythrough', checkReady);
             clearTimeout(safety);
         };
-    }, [setVideoReady]);
+    }, [setVideoReady, shouldPrepareVideo]);
 
     // 2. Playback: Triggered when the native preloader signals "video" status
     useEffect(() => {
@@ -93,7 +99,7 @@ export const VaultVideoPreloader = () => {
                 src="/The Vault preloader.mp4"
                 onEnded={handleVideoEnd}
                 className="w-full h-full object-cover"
-                preload="auto"
+                preload={shouldPrepareVideo ? "auto" : "none"}
                 playsInline
             />
         </div>

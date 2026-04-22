@@ -125,10 +125,10 @@ export function StickyScroll({
                     <div className="h-px flex-1 bg-white/10" />
                   </div>
 
-                  <h3 className="mb-4 font-display text-3xl font-bold tracking-tight text-white md:text-4xl">
+                  <h3 className="site-card-heading mb-4 text-white">
                     {item.title}
                   </h3>
-                  <p className="max-w-xl text-base leading-relaxed text-brand-muted md:text-lg">
+                  <p className="site-card-body max-w-xl text-brand-muted">
                     {item.description}
                   </p>
                 </div>

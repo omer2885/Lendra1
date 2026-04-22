@@ -51,13 +51,13 @@ export const SingleTransfer = () => {
     <Section className="relative overflow-visible bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.04),transparent_30%),linear-gradient(90deg,transparent,rgba(255,255,255,0.02),transparent)]">
       <div className="mb-16 max-w-6xl text-left">
         <FadeIn>
-          <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
+          <span className="site-kicker mb-4 block text-brand-accent">
             Case Study
           </span>
-          <h2 className="mb-6 font-display text-4xl font-bold leading-tight md:text-6xl">
+          <h2 className="site-section-heading mb-6">
             {yieldSource.title}
           </h2>
-          <p className="max-w-5xl text-lg leading-relaxed text-brand-muted">
+          <p className="site-body max-w-5xl text-brand-muted">
             {yieldSource.content}
           </p>
         </FadeIn>
@@ -83,10 +83,10 @@ export const SingleTransfer = () => {
                     </div>
                     <div className="h-px flex-1 bg-white/10" />
                   </div>
-                  <h3 className="mb-3 font-display text-2xl font-bold tracking-tight text-white">
+                  <h3 className="site-card-heading mb-3 text-white">
                     {step.title}
                   </h3>
-                  <p className="text-base leading-relaxed text-brand-muted">
+                  <p className="site-card-body text-brand-muted">
                     {step.description}
                   </p>
                 </div>

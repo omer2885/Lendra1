@@ -42,7 +42,7 @@ export const FinalCTA = ({ onEnterVault }: { onEnterVault: () => void }) => {
 
       <div className="relative z-10 mx-auto max-w-4xl px-6 py-24 text-center md:px-12 lg:px-24">
         <FadeIn>
-          <h2 className="font-display text-4xl md:text-6xl font-bold mb-12 leading-tight text-balance">
+          <h2 className="site-section-heading mb-12">
             {finalCTA.title}
           </h2>
           <div className="flex justify-center">
@@ -67,7 +67,7 @@ export const Footer = () => {
               alt="LENDRA1"
               className="mb-6 h-6 w-auto"
             />
-            <p className="text-brand-muted text-sm leading-relaxed max-w-sm">
+            <p className="site-card-body max-w-sm text-brand-muted">
               {footer.text}
             </p>
           </div>
@@ -82,12 +82,12 @@ export const Footer = () => {
         </div>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-brand-muted font-mono uppercase tracking-widest">
+          <p className="site-ui-label text-brand-muted">
             © 2026 LENDRA1. ALL RIGHTS RESERVED.
           </p>
           <div className="flex gap-6">
             <div className="w-2 h-2 rounded-full bg-brand-accent animate-pulse" />
-            <span className="text-[10px] font-mono text-brand-muted uppercase tracking-widest">System Status: Operational</span>
+            <span className="site-ui-label text-brand-muted">System Status: Operational</span>
           </div>
         </div>
       </div>
