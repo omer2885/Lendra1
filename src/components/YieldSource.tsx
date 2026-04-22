@@ -36,11 +36,7 @@ export const YieldSource = () => {
         video.currentTime = targetTime;
       }
 
-      if (video.paused) {
-        video.play().catch(() => {
-          // Autoplay can reject briefly before the media has buffered enough.
-        });
-      }
+      video.pause();
     };
 
     const requestUpdate = () => {
@@ -62,12 +58,16 @@ export const YieldSource = () => {
 
     video.muted = true;
     video.playsInline = true;
+    video.pause();
+
     observer.observe(section);
+    video.addEventListener("loadedmetadata", requestUpdate);
     window.addEventListener("scroll", requestUpdate, { passive: true });
     window.addEventListener("resize", requestUpdate);
 
     return () => {
       observer.disconnect();
+      video.removeEventListener("loadedmetadata", requestUpdate);
       window.removeEventListener("scroll", requestUpdate);
       window.removeEventListener("resize", requestUpdate);
       if (frameId !== null) {
