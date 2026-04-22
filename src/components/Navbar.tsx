@@ -24,7 +24,7 @@ export const Navbar = ({ onLogoClick }: { onLogoClick: () => void }) => {
         delay: 0.5,
         ease: [0.22, 1, 0.36, 1]
       }}
-      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 lg:px-24 py-6 bg-brand-midnight/80 backdrop-blur-md border-b border-white/5"
+      className="relative z-50 px-6 py-6 md:px-12 lg:px-24"
     >
       <div className="mx-auto flex w-full max-w-[112rem] items-center justify-between">
         <img

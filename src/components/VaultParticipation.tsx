@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from "react";
+import { ReactNode, useLayoutEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { LENDRA_CONTENT } from "../data/content";
@@ -7,10 +7,31 @@ import { VaultButton } from "./VaultButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void }) => {
+export const VaultParticipation = ({
+  disableFade = false,
+  id = "vault",
+  contentPosition = "right",
+  onEnterVault,
+}: {
+  disableFade?: boolean;
+  id?: string;
+  contentPosition?: "left" | "right";
+  onEnterVault: () => void;
+}) => {
   const { vault } = LENDRA_CONTENT;
   const sectionRef = useRef<HTMLElement | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const contentPositionClass =
+    contentPosition === "left" ? "mr-auto" : "ml-auto";
+  const mediaPositionClass =
+    contentPosition === "left" ? "lg:right-0" : "lg:left-0";
+  const mediaObjectClass =
+    contentPosition === "left" ? "object-right" : "object-left";
+  const mediaFadeClass =
+    contentPosition === "left"
+      ? "lg:bg-gradient-to-r lg:from-brand-charcoal lg:via-transparent lg:to-transparent"
+      : "lg:bg-gradient-to-l lg:from-brand-charcoal lg:via-transparent lg:to-transparent";
+  const backedByLogos = Array.from({ length: 12 }, (_, index) => `Logo ${index + 1}`);
 
   useLayoutEffect(() => {
     const section = sectionRef.current;
@@ -18,28 +39,33 @@ export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void 
 
     if (!section || !video) return;
 
-    gsap.ticker.lagSmoothing(0);
     video.pause();
     video.currentTime = 0;
+
     let removeMetadataListener: (() => void) | null = null;
 
     const ctx = gsap.context(() => {
       const setupScrollVideo = () => {
-        const duration = video.duration || 1;
-        if (!Number.isFinite(duration)) return;
+        const duration = video.duration || 0;
+        if (!Number.isFinite(duration) || duration <= 0) return;
 
-        video.currentTime = 0;
+        const maxTime = Math.max(duration - 0.04, 0);
 
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 25%",
-          end: "bottom top",
-          scrub: true,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            video.currentTime = duration * self.progress;
+        gsap.fromTo(
+          video,
+          { currentTime: 0 },
+          {
+            currentTime: maxTime,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 20%",
+              end: "bottom 10%",
+              scrub: 1.35,
+              invalidateOnRefresh: true,
+            },
           },
-        });
+        );
 
         ScrollTrigger.refresh();
       };
@@ -60,71 +86,75 @@ export const VaultParticipation = ({ onEnterVault }: { onEnterVault: () => void 
 
     return () => {
       removeMetadataListener?.();
+
       ctx.revert();
       video.pause();
       video.currentTime = 0;
     };
   }, []);
 
+  const content = (
+    <>
+      <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
+        Participation
+      </span>
+      <h2 className="mb-8 max-w-[32rem] font-display text-4xl font-bold leading-tight md:text-5xl">
+        {vault.title}
+      </h2>
+      <p className="max-w-[34rem] text-lg leading-relaxed text-brand-muted">
+        {vault.content}
+      </p>
+
+      <div className="mt-10 max-w-[34rem]">
+        <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-white/45">
+          Backed by
+        </span>
+        <div className="grid grid-cols-3 gap-3 sm:grid-cols-4">
+          {backedByLogos.map((logo) => (
+            <div
+              key={logo}
+              className="flex h-12 items-center justify-center border border-white/10 bg-white/[0.035] px-3 text-center font-mono text-[10px] uppercase tracking-[0.18em] text-white/45"
+            >
+              {logo}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-12">
+        <VaultButton label="Enter Vault" onClick={onEnterVault} />
+      </div>
+    </>
+  );
+
+  const renderContent = (children: ReactNode) =>
+    disableFade ? children : <FadeIn direction="left">{children}</FadeIn>;
+
   return (
     <section
       ref={sectionRef}
-      id="vault"
+      id={id}
       className="relative flex flex-col overflow-hidden bg-brand-charcoal pb-10 pt-0 lg:block lg:min-h-[44rem] lg:py-24"
     >
-      <div className="relative h-[40vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-0 lg:h-full lg:overflow-visible">
+      <div className={`pointer-events-none relative h-[48vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-y-0 lg:h-full lg:w-[58%] ${mediaPositionClass}`}>
         <video
           ref={videoRef}
-          className="pointer-events-none absolute inset-0 h-full w-full object-contain object-center scale-[1.8] translate-x-[40%] translate-y-[0%] lg:object-left lg:scale-100 lg:translate-x-0 lg:translate-y-0"
+          className={`absolute inset-0 h-full w-full object-cover ${mediaObjectClass}`}
           muted
           playsInline
-          preload="metadata"
-          poster="/Capital%20participation.png"
+          preload="auto"
           aria-hidden="true"
         >
-          <source src="/Capital%20participation.scrub.mp4" type="video/mp4" />
+          <source src="/Capital%20participation.mp4" type="video/mp4" />
         </video>
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-charcoal via-transparent to-transparent lg:hidden"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute inset-0 hidden lg:block"
-          style={{
-            background:
-              "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
-          }}
+          className={`absolute inset-0 bg-gradient-to-t from-brand-charcoal via-transparent to-transparent ${mediaFadeClass}`}
           aria-hidden="true"
         />
       </div>
       <div className="relative z-10 mx-auto mt-8 w-full max-w-[112rem] px-6 md:px-12 lg:mt-0 lg:px-24">
-        <div className="mb-16 ml-auto w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%]">
-          <FadeIn direction="left">
-            <span className="mb-4 block font-mono text-xs uppercase tracking-widest text-brand-accent">
-              Participation
-            </span>
-            <h2 className="mb-8 max-w-[32rem] font-display text-4xl font-bold leading-tight md:text-5xl">
-              {vault.title}
-            </h2>
-            <p className="max-w-[34rem] text-lg leading-relaxed text-brand-muted">
-              {vault.content}
-            </p>
-
-            <div className="mt-10 space-y-4">
-              {vault.features.map((feature) => (
-                <div key={feature} className="flex items-center gap-4 text-white/85">
-                  <div className="flex h-5 w-5 items-center justify-center rounded-full bg-brand-accent/20">
-                    <div className="h-1.5 w-1.5 rounded-full bg-brand-accent" />
-                  </div>
-                  <span className="font-medium">{feature}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-12">
-              <VaultButton label="Enter Vault" onClick={onEnterVault} />
-            </div>
-          </FadeIn>
+        <div className={`mb-16 w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%] ${contentPositionClass}`}>
+          {renderContent(content)}
         </div>
       </div>
     </section>

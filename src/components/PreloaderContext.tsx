@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 type PreloaderStatus = "loading" | "video" | "revealing" | "done";
 type View = "home" | "vault";
@@ -16,6 +17,7 @@ interface PreloaderContextType {
 const PreloaderContext = createContext<PreloaderContextType | undefined>(undefined);
 
 export function PreloaderProvider({ children }: { children: ReactNode }) {
+    const location = useLocation();
     const [status, setStatus] = useState<PreloaderStatus>("loading");
     const [view, setView] = useState<View>(() => {
         // Initial detection
@@ -23,16 +25,10 @@ export function PreloaderProvider({ children }: { children: ReactNode }) {
     });
     const [videoReady, setVideoReady] = useState(false);
 
-    // Keep view in sync with location even on browser back/forward
+    // Keep view in sync with router navigation and browser back/forward.
     useEffect(() => {
-        const handleLocationChange = () => {
-            const currentView = window.location.pathname.startsWith("/vault") ? "vault" : "home";
-            setView(currentView);
-        };
-
-        window.addEventListener('popstate', handleLocationChange);
-        return () => window.removeEventListener('popstate', handleLocationChange);
-    }, []);
+        setView(location.pathname.startsWith("/vault") ? "vault" : "home");
+    }, [location.pathname]);
 
     const reset = () => {
         setStatus("loading");

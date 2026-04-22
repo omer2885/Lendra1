@@ -1,14 +1,14 @@
 export const LENDRA_CONTENT = {
   hero: {
-    headline: "Real yield from short-term credit in remittance flows",
-    subtext: "LENDRA1 allocates USD1 based capital into short-duration credit facilities that support global remittance activity, generating returns from real usage.",
+    headline: "Real yield generated from short-term credit financing within global remittance flows",
+    subtext: "At LENDRA1, we deploy USD1-based capital into short-duration credit facilities that support global remittance flows, generating consistent returns for investors.",
     primaryCTA: "Enter Vault",
     secondaryCTA: "View Performance"
   },
-  positioning: "A capital allocator deploying USD1 based liquidity into short-term credit for remittance flows",
+  positioning: "Putting USD1 liquidity to work in short-term credit to keep money moving across global remittance networks",
   whatWeDo: {
-    title: "Capital for timing gaps",
-    content: "Global remittance systems rely on capital to bridge the time between transaction initiation and final settlement. LENDRA1 provides this capital through short-term credit facilities. By allocating USD1 based liquidity into these flows, LENDRA1 supports continuous remittance activity while generating returns from its usage."
+    title: "Capital deployed to bridge short-term timing gaps in payment flows",
+    content: "Global remittance systems depend on capital to bridge the gap between when a payment is sent and when it's fully settled. LENDRA1 provides that liquidity through short-term credit facilities, ensuring transactions continue to flow without disruption. Deploying USD1-based capital into these timing gaps, LENDRA1 keeps the system moving while earning returns from its use"
   },
   howItWorks: {
     title: "Simple structure",

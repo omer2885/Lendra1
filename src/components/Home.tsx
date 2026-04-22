@@ -3,7 +3,6 @@ import { Hero } from "./Hero";
 import { Positioning } from "./Positioning";
 import { WhatLendraDoes } from "./WhatLendraDoes";
 import { HowItWorks } from "./HowItWorks";
-import { SingleTransfer } from "./SingleTransfer";
 import { YieldSource } from "./YieldSource";
 import { VaultParticipation } from "./VaultParticipation";
 import { FinalCTA, Footer } from "./Footer";
@@ -34,8 +33,12 @@ export const Home = () => {
             <Positioning />
             <HowItWorks />
             <YieldSource />
-            <SingleTransfer />
-            <VaultParticipation onEnterVault={handleNavigateToVault} />
+            <VaultParticipation
+                id="vault"
+                contentPosition="left"
+                disableFade
+                onEnterVault={handleNavigateToVault}
+            />
             <FinalCTA onEnterVault={handleNavigateToVault} />
             <Footer />
         </motion.div>

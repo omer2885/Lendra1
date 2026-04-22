@@ -22,28 +22,33 @@ export const YieldSource = () => {
 
     if (!section || !video) return;
 
-    gsap.ticker.lagSmoothing(0);
     video.pause();
     video.currentTime = 0;
+
     let removeMetadataListener: (() => void) | null = null;
 
     const ctx = gsap.context(() => {
       const setupScrollVideo = () => {
-        const duration = video.duration || 1;
-        if (!Number.isFinite(duration)) return;
+        const duration = video.duration || 0;
+        if (!Number.isFinite(duration) || duration <= 0) return;
 
-        video.currentTime = 0;
+        const maxTime = Math.max(duration - 0.04, 0);
 
-        ScrollTrigger.create({
-          trigger: section,
-          start: "top 35%",
-          end: "bottom top",
-          scrub: true,
-          invalidateOnRefresh: true,
-          onUpdate: (self) => {
-            video.currentTime = duration * self.progress;
+        gsap.fromTo(
+          video,
+          { currentTime: 0 },
+          {
+            currentTime: maxTime,
+            ease: "none",
+            scrollTrigger: {
+              trigger: section,
+              start: "top 35%",
+              end: "bottom 10%",
+              scrub: 1.35,
+              invalidateOnRefresh: true,
+            },
           },
-        });
+        );
 
         ScrollTrigger.refresh();
       };
@@ -64,6 +69,7 @@ export const YieldSource = () => {
 
     return () => {
       removeMetadataListener?.();
+
       ctx.revert();
       video.pause();
       video.currentTime = 0;
@@ -76,28 +82,19 @@ export const YieldSource = () => {
       id="yield"
       className="relative flex flex-col overflow-hidden bg-brand-midnight pb-24 pt-0 lg:block lg:pb-24 lg:pt-24"
     >
-      <div className="relative h-[40vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-0 lg:h-full lg:overflow-visible">
+      <div className="pointer-events-none relative h-[48vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-y-0 lg:left-0 lg:h-full lg:w-[58%]">
         <video
           ref={videoRef}
-          className="pointer-events-none absolute inset-0 h-full w-full object-contain object-right scale-[1.5] translate-x-[20%] translate-y-[0%] lg:object-left lg:scale-100 lg:translate-x-0 lg:translate-y-0"
+          className="absolute inset-0 h-full w-full object-cover object-left"
           muted
           playsInline
-          preload="metadata"
-          poster="/A%20single%20transfer.png"
+          preload="auto"
           aria-hidden="true"
         >
-          <source src="/A%20single%20transfer.scrub.mp4" type="video/mp4" />
+          <source src="/A%20single%20transfer.mp4" type="video/mp4" />
         </video>
         <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-t from-brand-midnight via-transparent to-transparent lg:hidden"
-          aria-hidden="true"
-        />
-        <div
-          className="pointer-events-none absolute inset-0 hidden lg:block"
-          style={{
-            background:
-              "linear-gradient(to left, #000 0%, rgba(0,0,0,0.85) 10%, transparent 100%)",
-          }}
+          className="absolute inset-0 bg-gradient-to-t from-brand-midnight via-transparent to-transparent lg:bg-gradient-to-r lg:from-transparent lg:via-transparent lg:to-brand-midnight"
           aria-hidden="true"
         />
       </div>
