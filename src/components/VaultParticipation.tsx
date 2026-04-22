@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 import { LENDRA_CONTENT } from "../data/content";
 import { FadeIn } from "./Layout";
 import { VaultButton } from "./VaultButton";
@@ -21,6 +21,8 @@ export const VaultParticipation = ({
     contentPosition === "left" ? "lg:right-0" : "lg:left-0";
   const mediaObjectClass =
     contentPosition === "left" ? "object-right" : "object-left";
+  const mediaManualPositionClass = "left-0 top-0 md:left-[10%]";
+  const mediaManualTransformClass = "scale-100";
   const mediaFadeClass =
     contentPosition === "left"
       ? "lg:bg-gradient-to-r lg:from-brand-charcoal lg:via-transparent lg:to-transparent"
@@ -69,11 +71,11 @@ export const VaultParticipation = ({
       id={id}
       className="relative flex flex-col overflow-hidden bg-brand-charcoal pb-10 pt-0 lg:block lg:min-h-[44rem] lg:py-24"
     >
-      <div className={`pointer-events-none relative h-[48vh] w-full shrink-0 overflow-hidden lg:absolute lg:inset-y-0 lg:h-full lg:w-[58%] ${mediaPositionClass}`}>
+      <div className={`pointer-events-none relative h-[48vh] shrink-0 lg:absolute lg:inset-y-0 lg:h-full lg:w-[70%] ${mediaPositionClass}`}>
         <img
           src="/Capital%20participation.png"
           alt=""
-          className={`absolute inset-0 h-full w-full object-cover ${mediaObjectClass}`}
+          className={`vault-participation-pc-image absolute h-[100%] w-[100%] md:h-[88%] md:top-27 object-cover ${mediaObjectClass} ${mediaManualPositionClass} ${mediaManualTransformClass}`}
           aria-hidden="true"
         />
         <div
@@ -81,7 +83,7 @@ export const VaultParticipation = ({
           aria-hidden="true"
         />
       </div>
-      <div className="relative z-10 mx-auto mt-8 w-full max-w-[112rem] px-6 md:px-12 lg:mt-0 lg:px-24">
+      <div className="relative z-10 mx-auto -mt-14 w-full max-w-[112rem] px-6 md:mt-8 md:px-12 lg:mt-0 lg:px-24">
         <div className={`mb-16 w-full max-w-[44rem] text-left lg:w-[50%] xl:w-[45%] ${contentPositionClass}`}>
           {renderContent(content)}
         </div>

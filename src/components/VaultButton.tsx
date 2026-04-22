@@ -11,6 +11,7 @@ interface VaultButtonProps {
 }
 
 type Ripple = { x: number; y: number; id: number };
+type VaultShaderMount = ShaderMount & { destroy?: () => void };
 
 export const VaultButton = ({
   label = "Vault",
@@ -22,33 +23,47 @@ export const VaultButton = ({
   const [isPressed, setIsPressed] = useState(false);
   const [ripples, setRipples] = useState<Ripple[]>([]);
   const shaderRef = useRef<HTMLDivElement>(null);
-  const shaderMountRef = useRef<ShaderMount | null>(null);
+  const shaderMountRef = useRef<VaultShaderMount | null>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   const rippleIdRef = useRef(0);
 
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   const dimensions = useMemo(() => {
+    const baseHeight = isMobile ? 38 : 46;
+    const baseInnerHeight = baseHeight - 4;
+
     if (viewMode === "icon") {
       return {
-        width: 46,
-        height: 46,
-        innerWidth: 42,
-        innerHeight: 42,
-        shaderWidth: 46,
-        shaderHeight: 46,
+        width: baseHeight,
+        height: baseHeight,
+        innerWidth: baseInnerHeight,
+        innerHeight: baseInnerHeight,
+        shaderWidth: baseHeight,
+        shaderHeight: baseHeight,
       };
     }
 
-    const textButtonWidth = Math.max(132, Math.round(label.length * 9.25 + 56));
+    const textScale = isMobile ? 8.5 : 9.25;
+    const padding = isMobile ? 44 : 56;
+    const minWidth = isMobile ? 110 : 132;
+    const textButtonWidth = Math.max(minWidth, Math.round(label.length * textScale + padding));
 
     return {
       width: textButtonWidth,
-      height: 46,
+      height: baseHeight,
       innerWidth: textButtonWidth - 4,
-      innerHeight: 42,
+      innerHeight: baseInnerHeight,
       shaderWidth: textButtonWidth,
-      shaderHeight: 46,
+      shaderHeight: baseHeight,
     };
-  }, [label, viewMode]);
+  }, [label, viewMode, isMobile]);
 
   useEffect(() => {
     const styleId = "vault-liquid-metal-ripple-style";
@@ -202,7 +217,7 @@ export const VaultButton = ({
               <>
                 <span
                   style={{
-                    fontSize: "14px",
+                    fontSize: isMobile ? "13px" : "14px",
                     color: "#f4f4f4",
                     fontWeight: 500,
                     textShadow: "0px 1px 2px rgba(0, 0, 0, 0.55)",
@@ -212,7 +227,7 @@ export const VaultButton = ({
                   {label}
                 </span>
                 <ArrowRight
-                  size={16}
+                  size={isMobile ? 14 : 16}
                   style={{
                     color: "#f4f4f4",
                     filter: "drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.45))",

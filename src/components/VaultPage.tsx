@@ -1,4 +1,5 @@
 import { motion } from "motion/react";
+import type { Variants } from "motion/react";
 import { usePreloader } from "./PreloaderContext";
 import { ArrowLeftRight, TrendingUp, ShieldCheck, Zap, Settings, History, Info, AlertCircle } from "lucide-react";
 import { useState } from "react";
@@ -8,7 +9,7 @@ export const VaultPage = () => {
     const isRevealed = status === "done";
     const [fromAmount, setFromAmount] = useState("");
 
-    const containerVariants = {
+    const containerVariants: Variants = {
         hidden: { opacity: 0 },
         visible: {
             opacity: 1,
@@ -19,9 +20,9 @@ export const VaultPage = () => {
         }
     };
 
-    const itemVariants = {
+    const itemVariants: Variants = {
         hidden: { y: 20, opacity: 0 },
-        visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+        visible: { y: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] as const } }
     };
 
     return (

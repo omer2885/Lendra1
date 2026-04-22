@@ -317,7 +317,7 @@
   padding: 0.72rem 0.82rem;
 }
 
-.capital-timing-flow-item + .capital-timing-flow-item {
+.capital-timing-flow-item+.capital-timing-flow-item {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -356,26 +356,30 @@
   }
 
   .capital-timing-shell {
-    grid-template-columns: minmax(20rem, 0.42fr) minmax(0, 0.58fr);
-    gap: clamp(2rem, 3.5vw, 4rem);
-    min-height: clamp(31rem, 43vw, 39rem);
+    grid-template-columns: minmax(18rem, 0.45fr) minmax(0, 0.55fr);
+    gap: clamp(3rem, 6vw, 6.5rem);
+    min-height: 28rem;
+    align-items: center;
   }
 
   .capital-timing-body {
-    max-width: 30rem;
+    max-width: 28rem;
   }
 
   .capital-timing-visual {
-    width: min(57vw, 52rem);
+    width: 100%;
+    max-width: 48rem;
+    margin-right: 0;
   }
 
   .capital-timing-flow {
-    width: min(19rem, calc(100% - 2rem));
+    width: min(18rem, calc(100% - 2rem));
     left: 1rem;
+    bottom: 1rem;
   }
 
   .capital-timing-media-frame {
-    border-radius: 1.25rem;
+    border-radius: 1.15rem;
   }
 }
 
@@ -398,7 +402,7 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 
-  .capital-timing-flow-item + .capital-timing-flow-item {
+  .capital-timing-flow-item+.capital-timing-flow-item {
     border-top: 0;
     border-left: 1px solid rgba(255, 255, 255, 0.1);
   }
@@ -429,17 +433,10 @@
   }
 
   .capital-timing-flow {
-    position: relative;
-    right: auto;
-    bottom: auto;
-    grid-template-columns: 1fr;
-    width: 100%;
-    margin-top: 0.8rem;
-    border-color: rgba(12, 22, 19, 0.12);
-    background: rgba(7, 12, 10, 0.88);
+    display: none;
   }
 
-  .capital-timing-flow-item + .capital-timing-flow-item {
+  .capital-timing-flow-item+.capital-timing-flow-item {
     border-top: 1px solid rgba(255, 255, 255, 0.1);
     border-left: 0;
   }
@@ -616,6 +613,34 @@
   text-transform: uppercase;
 }
 
+@media (max-width: 767px) {
+  .hero-heading {
+    font-size: 1.6rem !important;
+    max-width: 100%;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-body {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 0.75rem;
+  }
+}
+
+@media (min-width: 1441px) {
+  .hero-readable-overlay {
+    display: none;
+  }
+
+  .vault-participation-pc-image {
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    transform: scale(1.18);
+    transform-origin: center right;
+  }
+}
+
 @media (min-width: 1024px) and (max-width: 1440px) and (max-height: 850px) {
   .hero-section {
     padding-left: 3.25rem;
@@ -623,24 +648,47 @@
   }
 
   .hero-visual {
-    object-position: 76% 50%;
+    object-position: 92% 50%;
   }
 
   .hero-readable-overlay {
     background:
-      linear-gradient(90deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.46) 34%, rgba(0, 0, 0, 0.08) 64%, transparent 100%),
+      linear-gradient(90deg, rgba(0, 0, 0, 0.82) 0%, rgba(0, 0, 0, 0.5) 28%, rgba(0, 0, 0, 0.1) 48%, transparent 72%),
       linear-gradient(180deg, rgba(0, 0, 0, 0.72) 0%, transparent 30%, rgba(0, 0, 0, 0.42) 100%);
   }
 
   .hero-copy {
-    transform: translateY(-2.1rem);
+    transform: translateY(0);
   }
 
   .hero-heading {
-    max-width: 42rem;
+    max-width: 36rem;
+    line-height: 1.02;
   }
 
   .hero-body {
-    max-width: 38rem;
+    max-width: 32rem;
   }
+
+  .positioning-gradient-section>div {
+    min-height: 32rem !important;
+  }
+
+  .positioning-gradient-section img {
+    transform: scale(1.22) translateX(3%) !important;
+    transform-origin: center right;
+  }
+
+  .thesis-section {
+    min-height: 38rem !important;
+  }
+
+  .thesis-section>div:last-child {
+    min-height: 38rem !important;
+  }
+
+  .thesis-section video {
+    object-position: 22% 50% !important;
+  }
+
 }

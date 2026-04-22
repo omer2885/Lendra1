@@ -14,17 +14,19 @@ export const Hero = ({ onEnterVault }: { onEnterVault: () => void }) => {
         initial={{ scale: 1.1, opacity: 0 }}
         animate={isRevealed ? { scale: 1.1, opacity: 1 } : { scale: 1.1, opacity: 0 }}
         transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
-        className="hero-visual absolute inset-0 -mt-20 h-full w-full object-cover object-[85%_50%] md:mt-0 md:h-screen md:w-screen md:object-right"
+        className="hero-visual absolute inset-0 -mt-50 h-full w-full object-cover object-[82%_50%] md:mt-0 md:h-screen md:w-screen md:object-right"
         src="/Hero_Visual.png"
         alt=""
         fetchPriority="high"
         aria-hidden="true"
       />
-      <div className="hero-readable-overlay pointer-events-none absolute inset-0 z-[1]" aria-hidden="true" />
 
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] items-end">
+      {/* Enhanced bottom overlay for mobile legibility */}
+      <div className="hero-readable-overlay pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black via-black/40 to-transparent md:bg-transparent" aria-hidden="true" />
+
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] items-end pb-10 md:pb-0">
         <div className="flex w-full items-end">
-          <div className="hero-copy flex w-full max-w-none -translate-y-8 flex-col items-start justify-end self-end text-left md:-translate-y-12">
+          <div className="hero-copy flex w-full max-w-none flex-col items-start justify-end self-end text-left md:-translate-y-12">
             <motion.h1
               initial={{ y: 40, opacity: 0 }}
               animate={isRevealed ? { y: 0, opacity: 1 } : { y: 40, opacity: 0 }}

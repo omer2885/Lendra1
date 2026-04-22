@@ -24,13 +24,13 @@ export const Navbar = ({ onLogoClick }: { onLogoClick: () => void }) => {
         delay: 0.5,
         ease: [0.22, 1, 0.36, 1]
       }}
-      className="relative z-50 px-6 py-6 md:px-12 lg:px-24"
+      className="relative z-50 px-6 py-4 bg-brand-midnight/40 backdrop-blur-md md:bg-transparent md:backdrop-blur-none md:px-12 md:py-6 lg:px-24"
     >
       <div className="mx-auto flex w-full max-w-[112rem] items-center justify-between">
         <img
           src="/Lendra1%20Logo.svg"
           alt="LENDRA1"
-          className="h-8 w-auto shrink-0 cursor-pointer"
+          className="h-6 w-auto md:h-8 shrink-0 cursor-pointer"
           onClick={onLogoClick}
         />
 

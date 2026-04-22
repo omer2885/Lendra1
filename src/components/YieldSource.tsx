@@ -7,6 +7,11 @@ export const YieldSource = () => {
   const { singleTransfer } = LENDRA_CONTENT;
   const sectionRef = useRef<HTMLElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const mobileImageFrameClass = "relative z-10 h-[18rem] w-full overflow-hidden md:hidden";
+  const mobileImagePositionClass = "top-0 left-1/2";
+  const mobileImageSizeClass = "h-full w-[250%] max-w-none";
+  const mobileImageObjectClass = "object-cover object-center";
+  const mobileImageTransformClass = "-translate-x-[26%] translate-y-0 scale-100";
 
   const transferIntroParagraphs = [
     "A transfer is initiated from one region to another.",
@@ -69,10 +74,20 @@ export const YieldSource = () => {
     <section
       ref={sectionRef}
       id="yield"
-      className="relative flex min-h-[40rem] flex-col overflow-hidden bg-brand-midnight lg:block lg:h-auto lg:min-h-[46rem]"
+      className="relative thesis-section flex min-h-0 flex-col overflow-hidden bg-brand-midnight md:min-h-[40rem] lg:block lg:h-auto lg:min-h-[46rem]"
     >
+      {/* Mobile Static Asset */}
+      <div className={mobileImageFrameClass} aria-hidden="true">
+        <img
+          src="/A%20single%20transfer.png"
+          alt=""
+          className={`absolute ${mobileImagePositionClass} ${mobileImageSizeClass} ${mobileImageObjectClass} ${mobileImageTransformClass}`}
+        />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-brand-midnight to-transparent" />
+      </div>
+
       {/* Background Video Stack */}
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <div className="absolute inset-0 z-0 hidden overflow-hidden pointer-events-none md:block">
         <video
           ref={videoRef}
           className="absolute inset-0 h-full w-full object-cover object-center lg:object-left"
@@ -92,7 +107,7 @@ export const YieldSource = () => {
       </div>
 
       {/* Content Container */}
-      <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] px-6 py-20 md:px-12 lg:min-h-[46rem] lg:items-center lg:px-24">
+      <div className="relative z-10 mx-auto flex h-full w-full max-w-[112rem] px-6 pb-16 pt-10 md:px-12 md:py-20 lg:min-h-[46rem] lg:items-center lg:px-24">
         <div className="w-full max-w-[44rem] text-left lg:ml-auto lg:w-[50%] xl:w-[45%]">
           <FadeIn>
             <span className="site-kicker mb-4 block text-brand-accent drop-shadow-sm">

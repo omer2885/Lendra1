@@ -1,26 +1,54 @@
 import { useEffect, useRef, useState, type ComponentType } from "react";
 import { usePreloader } from "./PreloaderContext";
 
-const HOME_CRITICAL_ASSETS = [
-    "/Hero_Visual.png",
-    "/Lendra1%20Logo.svg",
-];
+const HOME_CRITICAL_ASSETS = {
+    images: [
+        "/Hero_Visual.png",
+        "/Lendra1%20Logo.svg",
+        "/A%20single%20transfer.png",
+    ],
+    videos: [
+        "/A%20single%20transfer.mp4",
+        "/Simple%20Structure%20Animations/Transfer%20initiated.mp4",
+        "/Simple%20Structure%20Animations/Capital%20bridge%20provided.mp4",
+        "/Simple%20Structure%20Animations/Settlement%20completed.mp4",
+        "/Simple%20Structure%20Animations/Credit%20repaid.mp4",
+        "/Simple%20Structure%20Animations/Capital%20redeployed.mp4",
+    ]
+};
 
 const loadImageAsset = (src: string) =>
     new Promise<void>((resolve) => {
         const image = new Image();
-
         const finish = () => resolve();
         image.onload = async () => {
-            try {
-                await image.decode?.();
-            } catch {
-                // Decode can reject for SVG/cached images; onload is enough.
-            }
+            try { await image.decode?.(); } catch { }
             finish();
         };
         image.onerror = finish;
         image.src = src;
+    });
+
+const loadVideoAsset = (src: string) =>
+    new Promise<void>((resolve) => {
+        const video = document.createElement("video");
+        video.muted = true;
+        video.playsInline = true;
+        video.preload = "auto";
+
+        const finish = () => {
+            video.oncanplaythrough = null;
+            video.onerror = null;
+            resolve();
+        };
+
+        video.oncanplaythrough = finish;
+        video.onerror = finish;
+        video.src = src;
+        video.load();
+
+        // Timeout for video loading to prevent hangs on slow connections
+        setTimeout(finish, 10000);
     });
 
 const waitForHomepageReady = () => {
@@ -29,11 +57,12 @@ const waitForHomepageReady = () => {
             ? document.fonts.ready.then(() => undefined).catch(() => undefined)
             : Promise.resolve();
 
-    const assetReady = Promise.allSettled(HOME_CRITICAL_ASSETS.map(loadImageAsset)).then(
-        () => undefined,
-    );
+    const assetsReady = Promise.allSettled([
+        ...HOME_CRITICAL_ASSETS.images.map(loadImageAsset),
+        ...HOME_CRITICAL_ASSETS.videos.map(loadVideoAsset),
+    ]).then(() => undefined);
 
-    return Promise.all([fontReady, assetReady]).then(() => undefined);
+    return Promise.all([fontReady, assetsReady]).then(() => undefined);
 };
 
 export function Preloader() {
@@ -108,7 +137,7 @@ export function Preloader() {
 
     // Drive progress bar independently and robustly
     useEffect(() => {
-        const duration = 2500; // 2.5 seconds to build anticipation
+        const duration = 3200; // 3.2 seconds minimum for a premium sequence
         const start = performance.now();
         let rafId: number;
 
